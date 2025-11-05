@@ -1,15 +1,12 @@
 /** @jsxImportSource frog/jsx */
 
+// We are removing 'devtools' and 'serveStatic' as they are for local development only
 import { Button, Frog, TextInput } from 'frog'
-import { devtools } from 'frog/dev'
 import { handle } from 'frog/next'
-import { serveStatic } from 'frog/serve-static'
 
 const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
-  // Note: We're using a static image URL for `image` in c.res()
-  // to avoid the `getImageSize` error that was crashing the server.
   title: 'Frog Frame',
 })
 
@@ -17,8 +14,7 @@ app.frame('/', (c) => {
   const { buttonValue, inputText, status } = c
   const fruit = inputText || buttonValue
   return c.res({
-    // Use a simple, static image URL. This will not crash.
-    // This is a 1200x630px placeholder image.
+    // We are using the safe placeholder image URL
     image: `https://placehold.co/1200x630/000000/FFFFFF?text=${
       status === 'response'
         ? `You picked ${fruit?.toUpperCase() || '...'}`
@@ -35,7 +31,7 @@ app.frame('/', (c) => {
   })
 })
 
-devtools(app, { serveStatic })
+// We have removed the 'devtools' line that was here
 
 export const GET = handle(app)
 export const POST = handle(app)
